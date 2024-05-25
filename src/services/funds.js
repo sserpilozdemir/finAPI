@@ -1,6 +1,9 @@
-const { Fund } = require("../databaseService/index.js");
+// const { Fund } = require("../databaseService/index.js");
+const { getUuidByNumericId } = require("../utils/redisService.js");
 
 const getAllFunds = async (req) => {
+
+  const {Fund} = req.app.get('models');
   try {
     const fetchAllFunds = await Fund.findAll({
       raw: true,
@@ -11,6 +14,16 @@ const getAllFunds = async (req) => {
   }
 };
 
+const fetchFundById = async (req) => {
+  try{
+    const {Fund} = req.app.get('models');
+    const id = req.params.id;
+    const uuid = await getUuidByNumericId(parseInt(id));
+    
+  }
+};
+
 module.exports = {
   getAllFunds,
+  fetchFundById
 };

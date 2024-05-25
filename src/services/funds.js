@@ -20,6 +20,8 @@ const fetchFundById = async (req) => {
     const id = req.params.id;
     const uuid = await getUuidByNumericId(parseInt(id));
     
+  } catch (err) {
+    console.log(err);
   }
 };
 

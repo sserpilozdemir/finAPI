@@ -1,18 +1,19 @@
 const Redis = require("ioredis");
 const redis = new Redis();
-const { getUsersAccount } = require("../services/accounts.js");
+const { fetchUsersAccount } = require("../services/accounts.js");
 
 const setNumericIdToUuid = (numericId, uuid) => {
   return redis.set(`numeric_id:${numericId}`, uuid);
 };
 
-const getUuidByNumericId = (numericId) => {
-  return redis.get(`numeric_id:${numericId}`);
+const getUuidByNumericId = async (numericId) => {
+  console.log("ASDFGHJ")
+  return await redis.get(numericId);
 };
 
 const importData = async () => {
   try {
-    const accounts = await getUsersAccount();
+    const accounts = await fetchUsersAccount();
     let x = 1;
     for (const item of accounts) {
       await redis.set(x, item.id);

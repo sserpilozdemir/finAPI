@@ -1,20 +1,31 @@
 const { Account } = require("../databaseService/index.js");
+const { getUuidByNumericId } = require("../utils/redisService.js");
 
-const getUsersAccount = async () => {
+const fetchUsersAccount = async () => {
   try {
-    console.log("I AM HREE111")
     const allAccounts = await Account.findAll({
       raw: true,
     });
-    console.log("I ALSOO AM HREE111")
-
-    console.log("acc", allAccounts);
     return allAccounts;
   } catch (error) {
     throw error;
   }
 };
 
+const fetchUserById = async (req) => {
+  try {
+    const id = req.params.id;
+    const uuid = await getUuidByNumericId(parseInt(id));
+    const userById = await Account.findOne({
+      where: { id: uuid },
+    });
+    return userById;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
-  getUsersAccount,
+  fetchUsersAccount,
+  fetchUserById,
 };

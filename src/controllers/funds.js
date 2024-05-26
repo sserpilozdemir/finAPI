@@ -4,7 +4,6 @@ const { AppError } = require("../AppError.js");
 const { INVALID_DATA } = require("../constants/errorCodes.js");
 const { tryCatch } = require("../utils/tryCatch.js");
 
-
 const getFunds = tryCatch(async (req, res) => {
   const funds = await getAllFunds();
   if (!funds) {
@@ -12,6 +11,16 @@ const getFunds = tryCatch(async (req, res) => {
   }
   return res.status(200).json(funds);
 });
+
+const getFundsById = tryCatch(async (req, res) => {
+  const funds = await fetchFundById(res);
+  if (!funds) {
+    throw new AppError(INVALID_DATA, "There is no funds here", 400);
+  }
+  return res.status(200).json(funds);
+});
+
 module.exports = {
   getFunds,
+  getFundsById
 };
